@@ -1,57 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+
+// Define proper interfaces for data types
+interface CardItem {
+  title: string;
+  [key: string]: string;
+}
+
+interface QuestionItem {
+  question: string;
+  answer: string;
+  category: string;
+}
+
+interface ProgressItem {
+  text: string;
+}
+
+interface SalaryItem {
+  title: string;
+  salary: string;
+}
 
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("");
   const [showGrid, setShowGrid] = useState(true);
 
   // Mock data for different sections
-  const coursesData = [
+  const coursesData: CardItem[] = [
     { title: "Digital-Marketing", duration: "6 Months", provider: "Google-Certification", fee: "50000", buttonText: "Enroll Now" },
     { title: "Event-Planning", duration: "12 Months", provider: "Skillshare", fee: "40000", buttonText: "Enroll Now" },
     { title: "Public-Health", duration: "24 Months", provider: "Johns-Hopkins", fee: "65000", buttonText: "Enroll Now" },
   ];
 
-  const jobsData = [
+  const jobsData: CardItem[] = [
     { title: "Illustrator", experience: "3 Years", provider: "Adobe", salary: "55000", buttonText: "Apply Now" },
     { title: "Tax-Consultant", experience: "5 Years", provider: "EY-India", salary: "70000", buttonText: "Apply Now" },
     { title: "Waiter", experience: "2 Years", provider: "ITC-Hotels", salary: "35000", buttonText: "Apply Now" },
   ];
 
-  const examHelperData = [
+  const examHelperData: CardItem[] = [
     { title: "UPSC", year: "2025 Paper", university: "JNU", pages: "5", buttonText: "Download" },
     { title: "JEE", year: "2025 Paper", university: "IIT", pages: "5", buttonText: "Download" },
     { title: "UPSC", year: "2025 Paper", university: "JNU", pages: "4", buttonText: "Download" },
   ];
 
-  const mockInterviewData = [
+  const mockInterviewData: CardItem[] = [
     { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
     { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
     { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
   ];
 
-  const sampleQuestionsData = [
+  const sampleQuestionsData: QuestionItem[] = [
     { question: "What is the capital of France?", answer: "Paris", category: "General Knowledge" },
     { question: "What is 2 + 2?", answer: "4", category: "Mathematics" },
     { question: "Who wrote 'To Kill a Mockingbird'?", answer: "Harper Lee", category: "Literature" },
   ];
 
-  const progressData = [
+  const progressData: ProgressItem[] = [
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
   ];
 
-  const trendsData = [
+  const trendsData: ProgressItem[] = [
     { text: "Nvidia Decides to hire new employees in india for their new warehouse" },
     { text: "China Launched AI ChatBot DeepSeek which crossed the popularity of chatgpt" },
     { text: "Nvidia Decides to hire new employees in india for their new warehouse" },
     { text: "China Launched AI ChatBot DeepSeek which crossed the popularity of chatgpt" },
   ];
 
-  const salaryData = [
+  const salaryData: SalaryItem[] = [
     { title: "AI Engineer", salary: "50000 per Month" },
     { title: "BMS Engineer", salary: "25000 per month" },
     { title: "AI Engineer", salary: "50000 per Month" },
@@ -59,14 +80,14 @@ const Dashboard: React.FC = () => {
   ];
 
   const renderContent = () => {
-    const renderCard = (item: any, buttonText: string) => (
+    const renderCard = (item: CardItem, buttonText: string) => (
       <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         {Object.entries(item).map(([key, value]) =>
-          key !== "buttonText" && (
+          key !== "buttonText" ? (
             <p key={key} className="text-sm sm:text-base text-gray-700 mb-2">
-              <span className="font-medium capitalize">{key}: </span>{value}
+              <span className="font-medium capitalize">{key}: </span>{value as ReactNode}
             </p>
-          )
+          ) : null
         )}
         <button className="w-full mt-3 py-2 bg-[#3AADE1] text-white rounded-full font-medium text-sm sm:text-base">
           {buttonText}
@@ -74,7 +95,7 @@ const Dashboard: React.FC = () => {
       </div>
     );
 
-    const renderSampleQuestionCard = (item: any) => (
+    const renderSampleQuestionCard = (item: QuestionItem) => (
       <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         <p className="text-sm sm:text-base text-gray-700 mb-2">
           <span className="font-medium">Question: </span>{item.question}
@@ -90,20 +111,20 @@ const Dashboard: React.FC = () => {
 
     switch (activeTab) {
       case "courses":
-        return <div className="space-y-4">{coursesData.map((course, i) => renderCard(course, course.buttonText))}</div>;
+        return <div className="space-y-4">{coursesData.map((course) => renderCard(course, course.buttonText))}</div>;
       case "jobs":
-        return <div className="space-y-4">{jobsData.map((job, i) => renderCard(job, job.buttonText))}</div>;
+        return <div className="space-y-4">{jobsData.map((job) => renderCard(job, job.buttonText))}</div>;
       case "examHelper":
-        return <div className="space-y-4">{examHelperData.map((exam, i) => renderCard(exam, exam.buttonText))}</div>;
+        return <div className="space-y-4">{examHelperData.map((exam) => renderCard(exam, exam.buttonText))}</div>;
       case "mockInterview":
-        return <div className="space-y-4">{mockInterviewData.map((interview, i) => renderCard(interview, interview.buttonText))}</div>;
+        return <div className="space-y-4">{mockInterviewData.map((interview) => renderCard(interview, interview.buttonText))}</div>;
       case "sampleQuestions":
-        return <div className="space-y-4">{sampleQuestionsData.map((question, i) => renderSampleQuestionCard(question))}</div>;
+        return <div className="space-y-4">{sampleQuestionsData.map((question) => renderSampleQuestionCard(question))}</div>;
       case "progress":
         return (
           <div className="space-y-4">
-            {progressData.map((item, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+            {progressData.map((item, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
                 <p className="text-sm sm:text-base text-gray-700">{item.text}</p>
               </div>
             ))}
@@ -112,8 +133,8 @@ const Dashboard: React.FC = () => {
       case "trends":
         return (
           <div className="space-y-4">
-            {trendsData.map((trend, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+            {trendsData.map((trend, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
                 <p className="text-sm sm:text-base text-gray-700">{trend.text}</p>
               </div>
             ))}
@@ -122,8 +143,8 @@ const Dashboard: React.FC = () => {
       case "salary":
         return (
           <div className="space-y-4">
-            {salaryData.map((item, i) => (
-              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+            {salaryData.map((item, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
                 <p className="text-sm sm:text-base text-gray-700">{item.title} - {item.salary}</p>
               </div>
             ))}
@@ -163,7 +184,13 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const menuItems = [
+  interface MenuItem {
+    id: number;
+    title: string;
+    tab: string;
+  }
+
+  const menuItems: MenuItem[] = [
     { id: 1, title: "Courses For You", tab: "courses" },
     { id: 2, title: "Jobs for You", tab: "jobs" },
     { id: 3, title: "Exam Helper", tab: "examHelper" },
@@ -195,8 +222,14 @@ const Dashboard: React.FC = () => {
     resumeGenerator: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
   };
 
+  interface NavItem {
+    tab: string;
+    icon: string;
+    label: string;
+  }
+
   // Navigation items for bottom bar
-  const navigationItems = [
+  const navigationItems: NavItem[] = [
     { tab: "courses", icon: navIcons.courses, label: "Learn" },
     { tab: "jobs", icon: navIcons.jobs, label: "Jobs" },
     { tab: "examHelper", icon: navIcons.examHelper, label: "Exams" },
