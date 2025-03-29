@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-
+import { Link } from "react-router-dom";
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("courses");
   const [showGrid, setShowGrid] = useState(true);
 
