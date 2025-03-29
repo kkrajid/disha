@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 // Industry options
@@ -53,7 +53,7 @@ const ProfileSetup: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Fixed Header - Made responsive */}
       <div className="fixed top-0 left-0 right-0 bg-[#d4d3d3] text-white py-3 px-4 flex justify-between items-center z-10 shadow-md">
-        <div className="flex items-center">
+        <div className="flex items-center" onClick={() => navigate("/")}>
           <img src={logo} alt="DISHA Logo" className="h-6 sm:h-8" />
         </div>
         <div className="flex items-center">
