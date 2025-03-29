@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const Dashboard: React.FC = () => {
-
   const [activeTab, setActiveTab] = useState("");
   const [showGrid, setShowGrid] = useState(true);
 
@@ -187,6 +186,24 @@ const Dashboard: React.FC = () => {
     setActiveTab(""); // Reset activeTab to ensure a fresh start
   };
 
+  // Navigation icons
+  const navIcons = {
+    courses: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+    jobs: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    examHelper: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+    trends: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+    resumeGenerator: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+  };
+
+  // Navigation items for bottom bar
+  const navigationItems = [
+    { tab: "courses", icon: navIcons.courses, label: "Learn" },
+    { tab: "jobs", icon: navIcons.jobs, label: "Jobs" },
+    { tab: "examHelper", icon: navIcons.examHelper, label: "Exams" },
+    { tab: "trends", icon: navIcons.trends, label: "Trends" },
+    { tab: "resumeGenerator", icon: navIcons.resumeGenerator, label: "Resume" }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-white px-4 sm:px-6">
       {/* Header */}
@@ -200,7 +217,8 @@ const Dashboard: React.FC = () => {
             to="/profile-setup"
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden border-2 border-white"
           >
-            <img src="/api/placeholder/40/40" alt="Profile" className="w-full h-full object-cover" />
+            {/* Using a placeholder div instead of an external image */}
+            <div className="w-full h-full bg-[#4CA1E2] flex items-center justify-center text-white font-bold">K</div>
           </Link>
         </div>
       </header>
@@ -212,12 +230,8 @@ const Dashboard: React.FC = () => {
             <>
               {/* Banner */}
               <div className="relative rounded-xl overflow-hidden mb-6 h-48 shadow-lg">
-                <img
-                  src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
-                  alt="Job Fair Banner"
-                  className="w-full h-full object-cover absolute inset-0"
-                  loading="lazy"
-                />
+                {/* Using a styled div instead of an external image */}
+                <div className="w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 absolute inset-0" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/30" />
                 <div className="relative h-full flex flex-col justify-end p-4 text-white">
                   <h2 className="text-lg sm:text-xl font-bold mb-1 drop-shadow-md">Job Fair Oct 20-22</h2>
@@ -280,33 +294,7 @@ const Dashboard: React.FC = () => {
       {!showGrid && (
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 sm:px-6 z-10 shadow-sm">
           <div className="max-w-md mx-auto grid grid-cols-5 gap-1 sm:gap-2">
-            {[
-              {
-                tab: "courses",
-                icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
-                label: "Learn",
-              },
-              {
-                tab: "jobs",
-                icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-                label: "Jobs",
-              },
-              {
-                tab: "examHelper",
-                icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
-                label: "Exams",
-              },
-              {
-                tab: "trends",
-                icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
-                label: "Trends",
-              },
-              {
-                tab: "resumeGenerator",
-                icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
-                label: "Resume",
-              },
-            ].map((item) => (
+            {navigationItems.map((item) => (
               <button
                 key={item.tab}
                 onClick={() => setActiveTab(item.tab)}
