@@ -21,15 +21,15 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 bg-[#3AADE1] py-3 px-4 flex justify-between items-center z-10 shadow-md">
+      <header className="fixed top-0 left-0 right-0 bg-[#d4d3d3] py-3 px-4 flex justify-between items-center z-10 shadow-md">
         <img 
           src={logo} 
           alt="DISHA Logo" 
           className="h-8 w-auto" 
         />
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-white">Karthik</span>
-          <div className="w-9 h-9 rounded-full bg-[#2C8EB6] flex items-center justify-center overflow-hidden border-2 border-white">
+          <span className="text-sm font-medium text-gray-800">Karthik</span>
+          <div className="w-9 h-9 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden border-2 border-white">
             <img 
               src="/api/placeholder/40/40" 
               alt="Profile"
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
             <button
               key={item.id}
               onClick={() => navigate(item.route)}
-              className="flex items-center justify-center p-4 h-20 rounded-xl bg-[#009688] shadow-sm hover:shadow-md transition-shadow duration-200 active:scale-95"
+              className="flex items-center justify-center p-4 h-20 rounded-xl bg-[#3AADE1] shadow-sm hover:shadow-md transition-shadow duration-200 active:scale-95"
             >
               <span className="text-sm font-medium text-white text-center">
                 {item.title}
