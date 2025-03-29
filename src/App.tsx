@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import Register from "./pages/Register"
 import ProfileSetup from "./pages/ProfileSetup"
 import Dashboard from "./pages/Dashboard"
+import ForgotPassword from "./pages/ForgotPassword"
 
 
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* 
         <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/dashboard" element={<Dashboard />} />

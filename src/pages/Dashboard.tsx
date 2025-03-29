@@ -1,348 +1,166 @@
 import React, { useState } from "react";
+import {  Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("courses");
+
+  const [activeTab, setActiveTab] = useState("");
   const [showGrid, setShowGrid] = useState(true);
 
   // Mock data for different sections
   const coursesData = [
-    {
-      title: "Digital-Marketing",
-      duration: "6 Months",
-      provider: "Google-Certification",
-      fee: "50000",
-      buttonText: "Enroll Now"
-    },
-    {
-      title: "Event-Planning",
-      duration: "12 Months",
-      provider: "Skillshare",
-      fee: "40000",
-      buttonText: "Enroll Now"
-    },
-    {
-      title: "Public-Health",
-      duration: "24 Months",
-      provider: "Johns-Hopkins",
-      fee: "65000",
-      buttonText: "Enroll Now"
-    }
+    { title: "Digital-Marketing", duration: "6 Months", provider: "Google-Certification", fee: "50000", buttonText: "Enroll Now" },
+    { title: "Event-Planning", duration: "12 Months", provider: "Skillshare", fee: "40000", buttonText: "Enroll Now" },
+    { title: "Public-Health", duration: "24 Months", provider: "Johns-Hopkins", fee: "65000", buttonText: "Enroll Now" },
   ];
 
   const jobsData = [
-    {
-      title: "Illustrator",
-      experience: "3 Years",
-      provider: "Adobe",
-      salary: "55000",
-      buttonText: "Apply Now"
-    },
-    {
-      title: "Tax-Consultant",
-      experience: "5 Years",
-      provider: "EY-India",
-      salary: "70000",
-      buttonText: "Apply Now"
-    },
-    {
-      title: "Waiter",
-      experience: "2 Years",
-      provider: "ITC-Hotels",
-      salary: "35000",
-      buttonText: "Apply Now"
-    }
+    { title: "Illustrator", experience: "3 Years", provider: "Adobe", salary: "55000", buttonText: "Apply Now" },
+    { title: "Tax-Consultant", experience: "5 Years", provider: "EY-India", salary: "70000", buttonText: "Apply Now" },
+    { title: "Waiter", experience: "2 Years", provider: "ITC-Hotels", salary: "35000", buttonText: "Apply Now" },
   ];
 
   const examHelperData = [
-    {
-      title: "UPSC",
-      year: "2025 Paper",
-      university: "JNU",
-      pages: "5",
-      buttonText: "Download"
-    },
-    {
-      title: "JEE",
-      year: "2025 Paper",
-      university: "IIT",
-      pages: "5",
-      buttonText: "Download"
-    },
-    {
-      title: "UPSC",
-      year: "2025 Paper",
-      university: "JNU",
-      pages: "4",
-      buttonText: "Download"
-    }
+    { title: "UPSC", year: "2025 Paper", university: "JNU", pages: "5", buttonText: "Download" },
+    { title: "JEE", year: "2025 Paper", university: "IIT", pages: "5", buttonText: "Download" },
+    { title: "UPSC", year: "2025 Paper", university: "JNU", pages: "4", buttonText: "Download" },
   ];
 
   const mockInterviewData = [
-    {
-      title: "AI-Developer",
-      year: "2025 Q & A",
-      provider: "Incralabs",
-      pages: "5",
-      buttonText: "Download"
-    },
-    {
-      title: "AI-Developer",
-      year: "2025 Q & A",
-      provider: "Incralabs",
-      pages: "5",
-      buttonText: "Download"
-    },
-    {
-      title: "AI-Developer",
-      year: "2025 Q & A",
-      provider: "Incralabs",
-      pages: "5",
-      buttonText: "Download"
-    }
+    { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
+    { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
+    { title: "AI-Developer", year: "2025 Q & A", provider: "Incralabs", pages: "5", buttonText: "Download" },
+  ];
+
+  const sampleQuestionsData = [
+    { question: "What is the capital of France?", answer: "Paris", category: "General Knowledge" },
+    { question: "What is 2 + 2?", answer: "4", category: "Mathematics" },
+    { question: "Who wrote 'To Kill a Mockingbird'?", answer: "Harper Lee", category: "Literature" },
   ];
 
   const progressData = [
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
     { text: "UPSC Question Bank Downloaded 3-21-2025" },
-    { text: "UPSC Question Bank Downloaded 3-21-2025" }
+    { text: "UPSC Question Bank Downloaded 3-21-2025" },
   ];
 
   const trendsData = [
     { text: "Nvidia Decides to hire new employees in india for their new warehouse" },
     { text: "China Launched AI ChatBot DeepSeek which crossed the popularity of chatgpt" },
     { text: "Nvidia Decides to hire new employees in india for their new warehouse" },
-    { text: "China Launched AI ChatBot DeepSeek which crossed the popularity of chatgpt" }
+    { text: "China Launched AI ChatBot DeepSeek which crossed the popularity of chatgpt" },
   ];
 
   const salaryData = [
     { title: "AI Engineer", salary: "50000 per Month" },
     { title: "BMS Engineer", salary: "25000 per month" },
     { title: "AI Engineer", salary: "50000 per Month" },
-    { title: "AI Engineer", salary: "50000 per Month" }
+    { title: "AI Engineer", salary: "50000 per Month" },
   ];
 
   const renderContent = () => {
+    const renderCard = (item: any, buttonText: string) => (
+      <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+        {Object.entries(item).map(([key, value]) =>
+          key !== "buttonText" && (
+            <p key={key} className="text-sm sm:text-base text-gray-700 mb-2">
+              <span className="font-medium capitalize">{key}: </span>{value}
+            </p>
+          )
+        )}
+        <button className="w-full mt-3 py-2 bg-[#3AADE1] text-white rounded-full font-medium text-sm sm:text-base">
+          {buttonText}
+        </button>
+      </div>
+    );
+
+    const renderSampleQuestionCard = (item: any) => (
+      <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+        <p className="text-sm sm:text-base text-gray-700 mb-2">
+          <span className="font-medium">Question: </span>{item.question}
+        </p>
+        <p className="text-sm sm:text-base text-gray-700 mb-2">
+          <span className="font-medium">Answer: </span>{item.answer}
+        </p>
+        <p className="text-sm sm:text-base text-gray-700 mb-2">
+          <span className="font-medium">Category: </span>{item.category}
+        </p>
+      </div>
+    );
+
     switch (activeTab) {
       case "courses":
-        return (
-          <div className="space-y-4">
-            {coursesData.map((course, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <div className="mb-2">
-                  <p><span className="font-medium">Title : </span>{course.title}</p>
-                  <p><span className="font-medium">Duration : </span>{course.duration}</p>
-                  <p><span className="font-medium">Provider : </span>{course.provider}</p>
-                  <p><span className="font-medium">Fee : </span>{course.fee}</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="text-purple-600">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="24" height="24" rx="5" fill="#F3E8FF" />
-                      <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="#9333EA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                    {course.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-
+        return <div className="space-y-4">{coursesData.map((course, i) => renderCard(course, course.buttonText))}</div>;
       case "jobs":
-        return (
-          <div className="space-y-4">
-            {jobsData.map((job, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <div className="mb-2">
-                  <p><span className="font-medium">Title : </span>{job.title}</p>
-                  <p><span className="font-medium">Experience : </span>{job.experience}</p>
-                  <p><span className="font-medium">Provider : </span>{job.provider}</p>
-                  <p><span className="font-medium">Salary : </span>{job.salary}</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="text-purple-600">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="24" height="24" rx="5" fill="#F3E8FF" />
-                      <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="#9333EA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                    {job.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-
+        return <div className="space-y-4">{jobsData.map((job, i) => renderCard(job, job.buttonText))}</div>;
       case "examHelper":
-        return (
-          <div className="space-y-4">
-            {examHelperData.map((exam, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <div className="mb-2">
-                  <p><span className="font-medium">Title : </span>{exam.title}</p>
-                  <p><span className="font-medium">Year : </span>{exam.year}</p>
-                  <p><span className="font-medium">University : </span>{exam.university}</p>
-                  <p><span className="font-medium">Pages : </span>{exam.pages}</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="text-purple-600">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="24" height="24" rx="5" fill="#F3E8FF" />
-                      <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="#9333EA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                    {exam.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-
+        return <div className="space-y-4">{examHelperData.map((exam, i) => renderCard(exam, exam.buttonText))}</div>;
       case "mockInterview":
-        return (
-          <div className="space-y-4">
-            {mockInterviewData.map((interview, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <div className="mb-2">
-                  <p><span className="font-medium">Title : </span>{interview.title}</p>
-                  <p><span className="font-medium">Year : </span>{interview.year}</p>
-                  <p><span className="font-medium">Provider : </span>{interview.provider}</p>
-                  <p><span className="font-medium">Pages : </span>{interview.pages}</p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="text-purple-600">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="24" height="24" rx="5" fill="#F3E8FF" />
-                      <path d="M12 6V18M12 6L7 11M12 6L17 11" stroke="#9333EA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">
-                    {interview.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-
+        return <div className="space-y-4">{mockInterviewData.map((interview, i) => renderCard(interview, interview.buttonText))}</div>;
+      case "sampleQuestions":
+        return <div className="space-y-4">{sampleQuestionsData.map((question, i) => renderSampleQuestionCard(question))}</div>;
       case "progress":
         return (
           <div className="space-y-4">
-            {progressData.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <p>{item.text}</p>
+            {progressData.map((item, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+                <p className="text-sm sm:text-base text-gray-700">{item.text}</p>
               </div>
             ))}
           </div>
         );
-
       case "trends":
         return (
           <div className="space-y-4">
-            {trendsData.map((trend, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <p>{trend.text}</p>
+            {trendsData.map((trend, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+                <p className="text-sm sm:text-base text-gray-700">{trend.text}</p>
               </div>
             ))}
           </div>
         );
-
       case "salary":
         return (
           <div className="space-y-4">
-            {salaryData.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <p>{item.title} - {item.salary}</p>
+            {salaryData.map((item, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+                <p className="text-sm sm:text-base text-gray-700">{item.title} - {item.salary}</p>
               </div>
             ))}
           </div>
         );
-
       case "resumeGenerator":
         return (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-6">CV Generator</h2>
+          <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">CV Generator</h2>
             <div className="space-y-4">
-              <div>
+              {["Name", "Date of Birth", "Address", "Education", "Phone", "Email"].map((field) => (
                 <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1]"
+                  key={field}
+                  type={field === "Phone" ? "tel" : field === "Email" ? "email" : field === "Date of Birth" ? "date" : "text"}
+                  placeholder={field}
+                  className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none text-base text-gray-700"
                 />
-              </div>
-              
-              <button
-                className="w-full py-2 bg-gray-200 text-gray-500 rounded-md"
-              >
-                Date of Birth
-              </button>
-              
-              <div>
-                <input
-                  type="text"
-                  placeholder="Address"
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1]"
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="text"
-                  placeholder="Education"
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1]"
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1]"
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1]"
-                />
-              </div>
-              
-              <button
-                className="w-full py-3 bg-[#3AADE1] text-white rounded-md font-medium"
-              >
+              ))}
+              <button className="w-full py-3 bg-[#3AADE1] text-white rounded-full font-medium text-base sm:text-lg">
                 Generate CV
               </button>
             </div>
           </div>
         );
-
       case "resumeExtraction":
         return (
-          <div className="bg-white rounded-lg shadow-md p-6 text-center">
-            <h2 className="text-xl font-bold mb-6">CV Extractor</h2>
-            <p className="mb-4">Attach Your CV Here!</p>
-            <button className="w-full py-3 bg-[#3AADE1] text-white rounded-md font-medium">
+          <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 text-center">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">CV Extractor</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-4">Attach Your CV Here!</p>
+            <button className="w-full py-3 bg-[#3AADE1] text-white rounded-full font-medium text-base sm:text-lg">
               Upload
             </button>
           </div>
         );
-
       default:
-        return (
-          <div className="text-center py-12">
-            <p>Select a section from above</p>
-          </div>
-        );
+        return null;
     }
   };
 
@@ -364,140 +182,151 @@ const Dashboard: React.FC = () => {
     setShowGrid(false);
   };
 
+  const handleBack = () => {
+    setShowGrid(true);
+    setActiveTab(""); // Reset activeTab to ensure a fresh start
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 bg-[#d4d3d3] py-3 px-4 flex justify-between items-center z-10 shadow-md">
+    <div className="flex flex-col min-h-screen bg-white px-4 sm:px-6">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 bg-white py-3 px-4 sm:px-6 flex justify-between items-center z-10 shadow-sm border-b border-gray-200">
         <button onClick={() => setShowGrid(true)} className="flex items-center">
-          <img 
-            src={logo} 
-            alt="DISHA Logo" 
-            className="h-8 w-auto" 
-          />
+          <img src={logo} alt="DISHA Logo" className="h-8 sm:h-10 w-auto" />
         </button>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-800">Karthik</span>
-          <Link to="/profile-setup" className="w-9 h-9 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden border-2 border-white">
-            <img 
-              src="/api/placeholder/40/40" 
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="text-sm sm:text-base font-medium text-gray-800">Karthik</span>
+          <Link
+            to="/profile-setup"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden border-2 border-white"
+          >
+            <img src="/api/placeholder/40/40" alt="Profile" className="w-full h-full object-cover" />
           </Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 pt-16 px-4 pb-4">
-        {showGrid ? (
-          <>
-            {/* Grid View */}
-            <div className="relative rounded-xl overflow-hidden mb-6 h-48 shadow-lg">
-              <img
-                src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
-                alt="Job Fair Banner"
-                className="w-full h-full object-cover absolute inset-0"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/30" />
-              <div className="relative h-full flex flex-col justify-end p-4 text-white">
-                <h2 className="text-xl font-bold mb-1 drop-shadow-md">Job Fair Oct 20-22</h2>
-                <p className="text-sm opacity-90 drop-shadow-md">
-                  Discover opportunities with top companies
-                </p>
+      <main className="flex-1 pt-16 sm:pt-20 pb-16">
+        <div className="w-full max-w-md mx-auto">
+          {showGrid ? (
+            <>
+              {/* Banner */}
+              <div className="relative rounded-xl overflow-hidden mb-6 h-48 shadow-lg">
+                <img
+                  src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                  alt="Job Fair Banner"
+                  className="w-full h-full object-cover absolute inset-0"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/30" />
+                <div className="relative h-full flex flex-col justify-end p-4 text-white">
+                  <h2 className="text-lg sm:text-xl font-bold mb-1 drop-shadow-md">Job Fair Oct 20-22</h2>
+                  <p className="text-sm sm:text-base opacity-90 drop-shadow-md">
+                    Discover opportunities with top companies
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              {menuItems.map((item) => (
+              {/* Grid View */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleGridItemClick(item.tab)}
+                    className="flex items-center justify-center p-4 h-20 rounded-xl bg-[#3AADE1] shadow-sm hover:shadow-md transition-shadow duration-200 active:scale-95"
+                    aria-label={`Go to ${item.title}`}
+                  >
+                    <span className="text-sm sm:text-base font-medium text-white text-center">
+                      {item.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : (
+            /* Content View */
+            <>
+              {/* Back Button */}
+              <div className="absolute top-16 sm:top-20 left-4 sm:left-6">
                 <button
-                  key={item.id}
-                  onClick={() => handleGridItemClick(item.tab)}
-                  className="flex items-center justify-center p-4 h-20 rounded-xl bg-[#3AADE1] shadow-sm hover:shadow-md transition-shadow duration-200 active:scale-95"
+                  onClick={handleBack}
+                  className="bg-gray-700 text-white rounded-full p-2 sm:p-3 hover:bg-gray-800 transition-colors"
+                  aria-label="Go back to dashboard grid"
                 >
-                  <span className="text-sm font-medium text-white text-center">
-                    {item.title}
-                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
                 </button>
-              ))}
-            </div>
-          </>
-        ) : (
-          /* Tab Content View */
-          <>
-            <div className="bg-[#3AADE1] py-3 px-4 text-white text-center font-medium text-lg">
-              {activeTab === "courses" && "Courses For You"}
-              {activeTab === "jobs" && "Jobs For You"}
-              {activeTab === "examHelper" && "Exam Helper"}
-              {activeTab === "mockInterview" && "Mock Interview Questions"}
-              {activeTab === "sampleQuestions" && "Sample Questions"}
-              {activeTab === "progress" && "My Progress"}
-              {activeTab === "trends" && "Industry Trends"}
-              {activeTab === "salary" && "Salary Compare"}
-              {activeTab === "resumeGenerator" && "CV Generator"}
-              {activeTab === "resumeExtraction" && "CV Extractor"}
-            </div>
+              </div>
 
-            <div className="p-4">
-              {renderContent()}
-            </div>
-          </>
-        )}
+              {/* Content */}
+              <div className="pt-12 sm:pt-16">{renderContent()}</div>
+            </>
+          )}
+        </div>
       </main>
 
-      {/* Bottom Navigation (Only in tab view) */}
+      {/* Bottom Navigation (Only in content view) */}
       {!showGrid && (
-        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 z-10">
-          <div className="grid grid-cols-5 gap-1">
-            <button
-              onClick={() => setActiveTab("courses")}
-              className={`flex flex-col items-center justify-center p-1 ${activeTab === "courses" ? "text-[#3AADE1]" : "text-gray-500"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-              <span className="text-xs">Learn</span>
-            </button>
-            
-            <button
-              onClick={() => setActiveTab("jobs")}
-              className={`flex flex-col items-center justify-center p-1 ${activeTab === "jobs" ? "text-[#3AADE1]" : "text-gray-500"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span className="text-xs">Jobs</span>
-            </button>
-            
-            <button
-              onClick={() => setActiveTab("examHelper")}
-              className={`flex flex-col items-center justify-center p-1 ${activeTab === "examHelper" ? "text-[#3AADE1]" : "text-gray-500"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              <span className="text-xs">Exams</span>
-            </button>
-            
-            <button
-              onClick={() => setActiveTab("trends")}
-              className={`flex flex-col items-center justify-center p-1 ${activeTab === "trends" ? "text-[#3AADE1]" : "text-gray-500"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-              <span className="text-xs">Trends</span>
-            </button>
-            
-            <button
-              onClick={() => setActiveTab("resumeGenerator")}
-              className={`flex flex-col items-center justify-center p-1 ${activeTab === "resumeGenerator" ? "text-[#3AADE1]" : "text-gray-500"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span className="text-xs">Resume</span>
-            </button>
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 sm:px-6 z-10 shadow-sm">
+          <div className="max-w-md mx-auto grid grid-cols-5 gap-1 sm:gap-2">
+            {[
+              {
+                tab: "courses",
+                icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+                label: "Learn",
+              },
+              {
+                tab: "jobs",
+                icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                label: "Jobs",
+              },
+              {
+                tab: "examHelper",
+                icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
+                label: "Exams",
+              },
+              {
+                tab: "trends",
+                icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+                label: "Trends",
+              },
+              {
+                tab: "resumeGenerator",
+                icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+                label: "Resume",
+              },
+            ].map((item) => (
+              <button
+                key={item.tab}
+                onClick={() => setActiveTab(item.tab)}
+                className={`flex flex-col items-center justify-center p-1 sm:p-2 ${
+                  activeTab === item.tab ? "text-[#3AADE1]" : "text-gray-500"
+                }`}
+                aria-label={`Go to ${item.label} section`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 sm:h-6 sm:w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                </svg>
+                <span className="text-xs sm:text-sm">{item.label}</span>
+              </button>
+            ))}
           </div>
         </nav>
       )}

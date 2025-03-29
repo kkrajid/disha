@@ -11,12 +11,12 @@ const industries = [
   "Healthcare",
   "Hospitality",
   "Marketing",
-  "Technology"
+  "Technology",
 ];
 
 const ProfileSetup: React.FC = () => {
   const navigate = useNavigate();
-  
+
   // State for form fields
   const [name, setName] = useState("");
   const [qualification, setQualification] = useState("");
@@ -28,7 +28,7 @@ const ProfileSetup: React.FC = () => {
 
   const handleIndustryToggle = (industry: string) => {
     if (selectedIndustries.includes(industry)) {
-      setSelectedIndustries(selectedIndustries.filter(item => item !== industry));
+      setSelectedIndustries(selectedIndustries.filter((item) => item !== industry));
     } else {
       setSelectedIndustries([...selectedIndustries, industry]);
     }
@@ -44,173 +44,167 @@ const ProfileSetup: React.FC = () => {
       address,
       mobileNumber,
       gender,
-      selectedIndustries
+      selectedIndustries,
     });
     navigate("/dashboard"); // Navigate to dashboard after saving
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Fixed Header - Made responsive */}
-      <div className="fixed top-0 left-0 right-0 bg-[#d4d3d3] text-white py-3 px-4 flex justify-between items-center z-10 shadow-md">
-        <div className="flex items-center" onClick={() => navigate("/")}>
-          <img src={logo} alt="DISHA Logo" className="h-6 sm:h-8" />
-        </div>
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 bg-white py-3 px-4 sm:px-6 flex justify-between items-center z-10 shadow-md">
         <div className="flex items-center">
-          <div className="flex flex-col items-end mr-2 sm:mr-3">
-            <span className="text-sm sm:text-lg font-medium">Karthik</span>
-          </div>
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden">
-            <img 
-              src="/api/placeholder/40/40" 
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+          <button
+            onClick={handleBack}
+            className="bg-gray-700 text-white rounded-full p-2 sm:p-3 mr-3 sm:mr-4 hover:bg-gray-800 transition-colors"
+            aria-label="Go back"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <img src={logo} alt="DISHA Logo" className="h-8 sm:h-10 w-auto" />
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="text-sm sm:text-base font-medium text-gray-800">Karthik</span>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#4CA1E2] flex items-center justify-center overflow-hidden shadow-sm">
+            <img src="/api/placeholder/40/40" alt="Profile" className="w-full h-full object-cover" />
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Add padding to top to account for fixed header */}
-      <div className="pt-16 sm:pt-20"></div>
+      {/* Main Content */}
+      <main className="flex-1 pt-16 sm:pt-20 pb-6">
+        <div className="w-full max-w-lg mx-auto">
+          <form onSubmit={handleSubmit}>
+            {/* Personal Information Card */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100 mb-6">
+              <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-[#3AADE1]">
+              Fill Up Your Profile
+              </h2>
 
-      {/* Profile Form */}
-      <div className="flex-1 px-4 py-6">
-        <form onSubmit={handleSubmit}>
-          {/* Personal Information Card */}
-          <div className="bg-white rounded-lg shadow-md p-5 mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-center mb-4">Fill Up Your Profile</h2>
-            <div className="border-b-2 border-black mb-6"></div>
-            
-            <div className="space-y-5">
-              <div>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full py-3 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1] text-gray-500"
-                  required
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="text"
-                  placeholder="Your highest qualification ?"
-                  value={qualification}
-                  onChange={(e) => setQualification(e.target.value)}
-                  className="w-full py-3 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1] text-gray-500"
-                  required
-                />
-              </div>
-              
-              <div>
-                <button
-                  type="button"
-                  onClick={() => document.getElementById("dob-input")?.click()}
-                  className="w-full py-3 bg-[#3AADE1] text-white rounded-md text-center"
-                >
-                  Date of Birth
-                </button>
-                <input
-                  id="dob-input"
-                  type="date"
-                  value={dateOfBirth}
-                  onChange={(e) => setDateOfBirth(e.target.value)}
-                  className="hidden"
-                  required
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="text"
-                  placeholder="Enter Your Complete Address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="w-full py-3 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1] text-gray-500"
-                  required
-                />
-              </div>
-              
-              <div>
-                <input
-                  type="tel"
-                  placeholder="Enter Your Mobile Number"
-                  value={mobileNumber}
-                  onChange={(e) => setMobileNumber(e.target.value)}
-                  className="w-full py-3 border-b border-gray-300 focus:outline-none focus:border-[#3AADE1] text-gray-500"
-                  required
-                />
-              </div>
-              
-              <div className="flex flex-wrap items-center space-x-2 sm:space-x-6 py-2">
-                <label className="flex items-center mb-2">
+              <div className="space-y-4">
+                <div className="relative">
                   <input
-                    type="checkbox"
-                    checked={gender === "Male"}
-                    onChange={() => setGender("Male")}
-                    className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#3AADE1] rounded text-[#3AADE1] focus:ring-[#3AADE1]"
+                    type="text"
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-gray-50 rounded-lg p-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3AADE1] text-gray-700 text-base"
+                    required
                   />
-                  <span className="ml-2 text-base sm:text-lg">Male</span>
-                </label>
-                
-                <label className="flex items-center mb-2">
+                </div>
+
+                <div className="relative">
                   <input
-                    type="checkbox"
-                    checked={gender === "Female"}
-                    onChange={() => setGender("Female")}
-                    className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#3AADE1] rounded text-[#3AADE1] focus:ring-[#3AADE1]"
+                    type="text"
+                    placeholder="Highest Qualification"
+                    value={qualification}
+                    onChange={(e) => setQualification(e.target.value)}
+                    className="w-full bg-gray-50 rounded-lg p-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3AADE1] text-gray-700 text-base"
+                    required
                   />
-                  <span className="ml-2 text-base sm:text-lg">Female</span>
-                </label>
-                
-                <label className="flex items-center mb-2">
+                </div>
+
+                <div className="relative">
                   <input
-                    type="checkbox"
-                    checked={gender === "Others"}
-                    onChange={() => setGender("Others")}
-                    className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#3AADE1] rounded text-[#3AADE1] focus:ring-[#3AADE1]"
+                    type="date"
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                    className="w-full bg-gray-50 rounded-lg p-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3AADE1] text-gray-700 text-base"
+                    required
                   />
-                  <span className="ml-2 text-base sm:text-lg">Others</span>
-                </label>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Complete Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="w-full bg-gray-50 rounded-lg p-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3AADE1] text-gray-700 text-base"
+                    required
+                  />
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="tel"
+                    placeholder="Mobile Number"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    className="w-full bg-gray-50 rounded-lg p-3 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#3AADE1] text-gray-700 text-base"
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 sm:gap-6 py-2">
+                  {["Male", "Female", "Others"].map((option) => (
+                    <label key={option} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="gender"
+                        checked={gender === option}
+                        onChange={() => setGender(option)}
+                        className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#3AADE1] rounded-full text-[#3AADE1] focus:ring-[#3AADE1]"
+                      />
+                      <span className="ml-2 text-sm sm:text-base text-gray-700">{option}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          
-          {/* Industry Preferences Card */}
-          <div className="bg-white rounded-lg shadow-md p-5 mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">Select Your Industry Preferences</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {industries.map((industry) => (
-                <button
-                  key={industry}
-                  type="button"
-                  onClick={() => handleIndustryToggle(industry)}
-                  className={`p-3 sm:p-4 rounded-md text-white text-center text-sm sm:text-base ${
-                    selectedIndustries.includes(industry)
-                      ? "bg-[#2C8EB6]"
-                      : "bg-[#3AADE1]"
-                  }`}
-                >
-                  {industry}
-                </button>
-              ))}
+
+            {/* Industry Preferences Card */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100 mb-6">
+              <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-[#3AADE1]">
+                Industry Preferences
+              </h2>
+
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {industries.map((industry) => (
+                  <button
+                    key={industry}
+                    type="button"
+                    onClick={() => handleIndustryToggle(industry)}
+                    className={`p-3 sm:p-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
+                      selectedIndustries.includes(industry)
+                        ? "bg-[#2C8EB6] text-white shadow-md"
+                        : "bg-[#3AADE1]/20 text-[#3AADE1] hover:bg-[#3AADE1]/30"
+                    }`}
+                  >
+                    {industry}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          
-          {/* Save Button */}
-          <div className="flex justify-center sm:justify-end pb-6">
-            <button
-              type="submit"
-              className="bg-[#009688] text-white py-2 sm:py-3 px-8 sm:px-12 rounded-md text-lg sm:text-xl"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
+
+            {/* Save Button */}
+            <div className="flex justify-center pb-6">
+              <button
+                type="submit"
+                className="w-full max-w-xs py-3 sm:py-4 rounded-lg bg-[#3AADE1] text-white text-lg sm:text-xl font-semibold hover:bg-[#2C8EB6] transition-colors shadow-md"
+              >
+                Save Profile
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
   );
 };
