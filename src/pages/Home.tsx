@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       <div className="w-full max-w-md px-4 py-6 flex flex-col items-center">
         <div className="mb-12 sm:mb-16 mt-4 sm:mt-0">
           <img 
-            src={logo || "/placeholder.svg"} 
+            src={logo} 
             alt="DISHA Logo" 
             className="w-[120px] sm:w-[180px]" 
           />
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
             By continuing, you agree to our
           </p>
           <p className="text-sm sm:text-base text-gray-500">
-            <a href="/terms" className="text-[#3AADE1]">Terms of Service</a> &amp; <a href="/privacy" className="text-[#3AADE1]">Privacy Policy</a>
+            <a href="/terms" className="text-[#3AADE1]">Terms of Service</a> & <a href="/privacy" className="text-[#3AADE1]">Privacy Policy</a>
           </p>
         </div>
       </div>
@@ -61,3 +61,5 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
+// src/App.tsx

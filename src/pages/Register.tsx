@@ -1,150 +1,176 @@
-import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import { register } from "../api/authApi";
+import logo from "../assets/logo.png";
+import googleIcon from "../assets/google-icon.png";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    phone_number: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    first_name: "",
+    last_name: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate("/profile-setup");
+    setLoading(true);
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { confirmPassword, ...registerData } = formData;
+      await register(registerData);
+      navigate("/login", { replace: true });
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4 sm:px-6">
-      <div className="w-full max-w-md p-4 sm:p-6 relative">
-        {/* Back button */}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
+      <div className="w-full max-w-[400px] p-4 relative">
         <button 
           onClick={handleBack} 
-          className="absolute top-4 sm:top-6 left-4 sm:left-6 bg-black text-white rounded-full p-2 sm:p-3"
-          aria-label="Go back"
+          className="absolute top-2 left-2 text-black rounded-full p-2"
+          aria-label="Back"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6"/>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="w-6 h-6"
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2"
+          >
+            <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
 
-        {/* Logo */}
-        <div className="flex flex-col items-center mt-12 sm:mt-16 mb-6 sm:mb-8">
-          <img src={logo || "/placeholder.svg"} alt="DISHA Logo" className="w-[120px] sm:w-[150px]" />
+        <div className="flex flex-col items-center mt-8 mb-4">
+          <img 
+            src={logo} 
+            alt="DISHA Logo" 
+            className="w-[100px] md:w-[120px]" 
+          />
         </div>
 
-        {/* Heading */}
-        <h1 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Hello! Register to get started</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Hello! Register to get started
+        </h1>
 
-        {/* Form */}
-        <form className="space-y-4 sm:space-y-5" onSubmit={handleRegister}>
-          <div className="bg-gray-50 rounded-xl p-3 sm:p-4">
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none text-base"
-              required
-            />
-          </div>
+        {error && <div className="text-red-500 text-center mb-4 text-sm">{error}</div>}
 
-          <div className="bg-gray-50 rounded-xl p-3 sm:p-4">
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none text-base"
-              required
-            />
-          </div>
+        <form className="space-y-4" onSubmit={handleRegister}>
+          {[
+            { type: "tel", placeholder: "Phone Number", name: "phone_number" },
+            { type: "email", placeholder: "Email", name: "email" },
+            { type: "text", placeholder: "First Name", name: "first_name" },
+            { type: "text", placeholder: "Last Name", name: "last_name" },
+          ].map((field) => (
+            <div key={field.name} className="bg-gray-50 rounded-lg p-2">
+              <input
+                type={field.type}
+                placeholder={field.placeholder}
+                value={formData[field.name as keyof typeof formData]}
+                onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+                className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none text-base placeholder:text-gray-400"
+                required
+              />
+            </div>
+          ))}
 
-          <div className="bg-gray-50 rounded-xl p-3 sm:p-4 relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none pr-10 text-base"
-              required
-            />
-            <button 
-              type="button" 
-              className="absolute right-4 top-4 text-gray-600 p-1"
-              onClick={togglePasswordVisibility}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              )}
-            </button>
-          </div>
+          {[
+            {
+              type: showPassword ? "text" : "password",
+              placeholder: "Password",
+              value: formData.password,
+              show: showPassword,
+              setShow: setShowPassword,
+            },
+            {
+              type: showConfirmPassword ? "text" : "password",
+              placeholder: "Confirm Password",
+              value: formData.confirmPassword,
+              show: showConfirmPassword,
+              setShow: setShowConfirmPassword,
+            },
+          ].map((field, index) => (
+            <div key={index} className="bg-gray-50 rounded-lg p-2 relative">
+              <input
+                type={field.type}
+                placeholder={field.placeholder}
+                value={field.value}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [index === 0 ? "password" : "confirmPassword"]: e.target.value,
+                  })
+                }
+                className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none pr-10 text-base placeholder:text-gray-400"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => field.setShow(!field.show)}
+                className="absolute right-3 top-3 text-gray-500"
+                aria-label={field.show ? "Hide password" : "Show password"}
+              >
+                {field.show ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          ))}
 
-          <div className="bg-gray-50 rounded-xl p-3 sm:p-4 relative">
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
-              className="w-full bg-transparent border-b border-blue-200 py-2 focus:outline-none pr-10 text-base"
-              required
-            />
-            <button 
-              type="button" 
-              className="absolute right-4 top-4 text-gray-600 p-1"
-              onClick={toggleConfirmPasswordVisibility}
-              aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
-            >
-              {showConfirmPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              )}
-            </button>
-          </div>
-
-          <button 
-            type="submit" 
-            className="w-full py-3 sm:py-4 rounded-full bg-[#3AADE1] text-white text-lg sm:text-xl font-medium mt-6"
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg bg-[#3AADE1] text-white font-medium text-base disabled:opacity-50 active:opacity-80 transition-opacity"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        {/* Social login options */}
-        <div className="mt-6 sm:mt-8">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <div className="h-px bg-gray-300 flex-grow"></div>
-            <p className="text-sm sm:text-base text-gray-600">or Register with</p>
-            <div className="h-px bg-gray-300 flex-grow"></div>
-          </div>
-          
-          <button className="w-full py-2 sm:py-3 px-4 border border-gray-300 rounded-full flex items-center justify-center space-x-2">
-            <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google" className="w-5 h-5 sm:w-6 sm:h-6" />
-            <span className="text-gray-700 text-base sm:text-lg">Google</span>
-          </button>
+        <div className="flex items-center my-4">
+          <div className="flex-1 border-t border-gray-300"></div>
+          <span className="px-3 text-sm text-gray-500">or Register with</span>
+          <div className="flex-1 border-t border-gray-300"></div>
         </div>
 
-        {/* Log in link */}
-        <p className="text-center mt-6 text-sm sm:text-base text-gray-600">
-          Already have an account? <a href="/login" className="text-[#3AADE1] font-medium">Log in</a>
+        <button 
+          className="w-full py-2 px-4 border border-gray-300 rounded-lg flex items-center justify-center space-x-2 active:bg-gray-50 mb-6"
+          aria-label="Register with Google"
+        >
+          <img src={googleIcon} alt="Google" className="w-5 h-5" />
+          <span className="text-gray-700 text-base">Google</span>
+        </button>
+
+        <p className="text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className="text-[#3AADE1] font-medium active:opacity-70"
+          >
+            Log in
+          </button>
         </p>
       </div>
     </div>
