@@ -2,7 +2,8 @@ import axios from 'axios';
 
 
 // const API_URL = 'http://localhost:8000'; // Update with your backend URL
-const API_URL = 'http://13.49.226.189';
+// const API_URL = 'http://13.49.226.189';
+const API_URL = 'https://disha-backend.onrender.com/';
 
 const authApi = axios.create({
   baseURL: API_URL,
